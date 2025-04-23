@@ -1,0 +1,9 @@
+{
+  "appTitle": "Рик и Морти",
+  "sex": "Пол",
+  "gender": "{gender, select, male{Мужчина} female{Женщина} genderless{Бесполый} other{Неизвестно}}",
+  "noData": "Нет данных",
+  "sorryServerErrorOccurred": "Извините! Произошла ошибка сервера",
+  "noInternetConnection": "Нет подключения к интернету!",
+  "someUnexpectedErrorOccurred": "Произошла непредвиденная ошибка!"
+}

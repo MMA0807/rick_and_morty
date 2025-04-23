@@ -1,0 +1,12 @@
+{
+  "app_title": "Rick and Morty",
+  "characterCard": {
+    "sex": "Пол",
+    "gender": {
+      "male": "Мужской",
+      "female": "Женский",
+      "genderless": "Аморфный",
+      "other": "Неизвестно"
+    }
+  }
+}

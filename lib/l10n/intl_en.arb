@@ -1,0 +1,9 @@
+{
+  "appTitle": "Rick and Morty",
+  "sex": "Sex",
+  "gender": "{gender, select, male{Male} female{Female} genderless{Genderless} other{Unknown}}",
+  "noData": "Нет данных",
+  "sorryServerErrorOccured": "Sorry! Server error occured",
+  "noInternetConnection": "No internet connection!",
+  "someUnexpectedErrorOccurred": "Some unexpected error occurred!"
+}
