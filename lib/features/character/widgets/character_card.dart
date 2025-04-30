@@ -50,6 +50,7 @@ class CharacterCard extends StatelessWidget {
                     ? CachedNetworkImage(
                       imageUrl: character.image,
                       fit: BoxFit.fitWidth,
+                      errorWidget: (context, e, _) => Icon(Icons.error_outline),
                     )
                     : SizedBox.shrink(),
           ),
