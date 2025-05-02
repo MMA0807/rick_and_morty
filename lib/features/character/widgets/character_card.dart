@@ -49,7 +49,7 @@ class CharacterCard extends StatelessWidget {
                 character.image.isNotEmpty
                     ? CachedNetworkImage(
                       imageUrl: character.image,
-                      fit: BoxFit.fitWidth,
+                      fit: BoxFit.fill,
                       errorWidget: (context, e, _) => Icon(Icons.error_outline),
                     )
                     : SizedBox.shrink(),
