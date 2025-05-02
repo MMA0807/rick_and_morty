@@ -67,7 +67,7 @@ class _CharactersListViewState extends State<CharactersListView> {
                 ),
               ),
             );
-          case CharacterStatus.success:
+          case CharacterStatus.loading || CharacterStatus.success:
             final characters = state.characters;
             final cubit = context.read<FavoriteCubit>();
 

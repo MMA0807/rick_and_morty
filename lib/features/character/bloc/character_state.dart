@@ -2,10 +2,13 @@ part of 'character_bloc.dart';
 
 enum CharacterStatus {
   initial,
+  loading,
   success,
   failure;
 
   bool get isInitial => CharacterStatus.initial == this;
+
+  bool get isLoading => CharacterStatus.loading == this;
 
   bool get isSuccess => CharacterStatus.success == this;
 

@@ -67,7 +67,8 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
     Refreshed event,
     Emitter<CharacterState> emit,
   ) async {
-    final either = await _getCharacter(CharacterParams(0));
+    emit(state.copyWith(status: CharacterStatus.loading));
+    final either = await _getCharacter(CharacterParams(1));
 
     either.fold(
       (l) => emit(state.copyWith(error: _getFailureAndThrowException(l))),
@@ -76,7 +77,6 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
           status: CharacterStatus.success,
           hasReachedMax: false,
           characters: r,
-          page: 1,
         ),
       ),
     );
