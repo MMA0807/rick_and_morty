@@ -4,11 +4,10 @@ import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/exceptions.dart';
-import '../models/character_model.dart';
-import '../models/episode_model.dart';
-import '../models/location_model.dart';
+import 'package:rick_and_morty/data/models/models.dart';
 
 const String cachedCharacters = 'CACHED_CHARACTERS';
+const String cachedCharactersPage = 'CACHED_CHARACTERS_PAGE';
 const String cachedFavoriteCharacters = 'CACHED_FAVORITE_CHARACTERS';
 const String cachedEpisodes = 'CACHED_EPISODES';
 const String cachedLocations = 'CACHED_LOCATIONS';
@@ -38,15 +37,30 @@ class HomeLocalDataSource implements IHomeLocalDataSource {
   final Box _box;
   final _pageLimit = 20;
 
-  @override
-  Future<void> cacheCharacters(List<CharacterModel> models, int page) {
-    return _isFirstPage(page)
-        ? _box.put(
-          cachedCharacters,
-          json.encode(models.map((e) => e.toJson()).toList()),
-        )
-        : Future.value();
+  Future<void> cacheCharactersPage(int page) {
+    return _box.put(cachedCharactersPage, page.toString());
   }
+
+  int getLastCharactersPage() =>
+      _box.get(cachedCharactersPage) == null
+          ? 0
+          : int.tryParse(_box.get(cachedCharactersPage)) ?? 0;
+
+  @override
+  Future<void> cacheCharacters(List<CharacterModel> models, int page) async {
+    if (checkCanCache(page)) {
+      await cacheCharactersPage(page);
+
+      final characters = [...getLastCharacters(page), ...models];
+
+      return _box.put(
+        cachedCharacters,
+        json.encode(characters.map((e) => e.toJson()).toList()),
+      );
+    }
+  }
+
+  bool checkCanCache(int page) => page > getLastCharactersPage();
 
   @override
   Future<void> cacheFavoriteCharacters(List<CharacterModel> models) {
@@ -80,16 +94,16 @@ class HomeLocalDataSource implements IHomeLocalDataSource {
 
   @override
   List<CharacterModel> getLastCharacters(int page) {
+    if (checkCanCache(page)) return [];
+
     final modelsString = _box.get(cachedCharacters);
     if (modelsString == null) {
       throw CacheException();
     }
-    return _isFirstPage(page)
-        ? json
-            .decode(modelsString)
-            .map<CharacterModel>((e) => CharacterModel.fromJson(e))
-            .toList()
-        : [];
+    return json
+        .decode(modelsString)
+        .map<CharacterModel>((e) => CharacterModel.fromJson(e))
+        .toList();
   }
 
   @override
